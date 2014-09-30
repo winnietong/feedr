@@ -11,12 +11,10 @@
     <body>
         <nav>
             Welcome {{ user.username }}!
-            {% if not user.is_authenticated %}
-                <a href="{% url "social:begin" "facebook" %}">Facebook Login</a>
-                <a href="{% url "social:begin" "instagram" %}">Instagram Login</a>
-            {% else %}
-                <a href="{% url 'logout' %}">Logout All</a>
-            {% endif %}
+            <a href="{% url "social:begin" "facebook" %}">Facebook Login</a>
+{#            <a href="{% url "social:begin" "instagram"%} ">Instagram Login</a>#}
+            <a href="https://instagram.com/oauth/authorize/?client_id=c88c4c32969144a0a121a7cbdaf6a95a&redirect_uri=http://localhost:8000/instagram/&response_type=token">Instagram Login</a>
+            <a href="{% url 'logout' %}">Logout All</a>
         </nav>
         {% block content %}{% endblock content %}
     </body>

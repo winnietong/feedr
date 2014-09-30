@@ -16,6 +16,9 @@ def home(request):
 
 
 def instagram(request):
+    # The other way of doing it:
+    # user_social_auth = request.user.social_auth.filter(provider='instagram').first()
+    # token = user_social_auth.extra_data['access_token']
     return render(request, 'instagram.html')
 
 
