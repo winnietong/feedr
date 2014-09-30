@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import facebook
 import json
@@ -33,11 +33,12 @@ def return_json(request):
     if request.method == 'POST':
         year = request.POST['year']
         month = request.POST['month']
+        offset = int(request.POST['offset'])
         date = datetime.datetime(int(year), int(month), 1)
         seconds = time.mktime(date.timetuple())
         user_social_auth = request.user.social_auth.filter(provider='facebook').first()
         graph = facebook.GraphAPI(user_social_auth.extra_data['access_token'])
-        photos = graph.get_object("me/photos", until=seconds)
+        photos = graph.get_object("me/photos", until=seconds, limit=20, offset=offset)
         return HttpResponse(json.dumps(photos['data']), content_type='application/json')
 
 

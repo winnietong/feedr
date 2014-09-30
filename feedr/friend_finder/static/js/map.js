@@ -5,6 +5,7 @@
 
 $(document).ready(function(){
 
+    var offset = 0;
 
     function initialize(photoData) {
         var map_canvas = $('#map_canvas')[0];
@@ -44,12 +45,22 @@ $(document).ready(function(){
 
     initialize(photoData);
 
+    $(document).on('click', '#offset', function(){
+        offset += 20;
+        show_images(offset);
+    });
+
     $(document).on('click', '#getData', function(){
+        show_images(offset);
+    });
+
+    function show_images(offset){
         var month = $('#month').val();
         var year = $('#year').val();
         dateInfo = {
             'month': month,
-            'year': year
+            'year': year,
+            'offset': offset
         };
         $.ajax({
             url: "/return_json/",
@@ -63,7 +74,7 @@ $(document).ready(function(){
                 console.log(response);
             }
         });
-    });
+    }
 
 });
 
