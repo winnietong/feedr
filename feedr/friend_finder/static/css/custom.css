@@ -1,4 +1,26 @@
 body{
     padding: 10px;
     width: 900px;
+    font-family: "proxima-nova", sans-serif;
+}
+
+input{
+	padding: 10px;
+	font-size: 12px;
+}
+
+button, .button{
+	font-size: 18px;
+	font-weight: normal;
+	padding: 9px 14px;
+	border-radius: 3px;
+	background-color: #22c4e5;
+	border: 1px solid #eee;
+	color: white;
+	border-radius: 5px;
+}
+
+button:hover, .button:hover{
+	background-color: #1d9db7;
+	color: white;
 }

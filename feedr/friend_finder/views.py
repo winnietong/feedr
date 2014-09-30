@@ -1,8 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 import facebook
 import json
-from instagram.client import InstagramAPI
+import datetime
+import time
+# from instagram.client import InstagramAPI
 
 # Create your views here.
 
@@ -16,11 +20,25 @@ def instagram(request):
 
 
 @login_required
+@csrf_exempt
 def map(request):
     user_social_auth = request.user.social_auth.filter(provider='facebook').first()
     graph = facebook.GraphAPI(user_social_auth.extra_data['access_token'])
     photos = graph.get_object("me/photos", limit=50)
     return render(request, 'map.html', {'photo_json': json.dumps(photos['data'])})
+
+
+@csrf_exempt
+def return_json(request):
+    if request.method == 'POST':
+        year = request.POST['year']
+        month = request.POST['month']
+        date = datetime.datetime(int(year), int(month), 1)
+        seconds = time.mktime(date.timetuple())
+        user_social_auth = request.user.social_auth.filter(provider='facebook').first()
+        graph = facebook.GraphAPI(user_social_auth.extra_data['access_token'])
+        photos = graph.get_object("me/photos", until=seconds)
+        return HttpResponse(json.dumps(photos['data']), content_type='application/json')
 
 
 @login_required
@@ -33,6 +51,3 @@ def profile(request):
     return render(request, 'profile.html', {'profile_data': profile_data,
                                             'picture_data': picture_data,
                                             'interests': interests})
-
-def ajaxmap(request):
-    return render(request, 'ajaxmap.html')

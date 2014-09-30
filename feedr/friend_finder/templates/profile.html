@@ -1,6 +1,7 @@
 {% extends 'base_template.html' %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <h1>Feedr profile page!</h1>
     <div>
         <br><br>
@@ -16,5 +17,5 @@
         {{ interest.name }}
     {% endfor %}
     </div>
-
+    {% endif %}
 {% endblock content %}

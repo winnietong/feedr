@@ -1,6 +1,7 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="{% static "css/custom.css" %}">
 
 
@@ -9,7 +10,7 @@
 <html>
     <body>
         <nav>
-                Welcome {{ user.username }}!
+            Welcome {{ user.username }}!
             {% if not user.is_authenticated %}
                 <a href="{% url "social:begin" "facebook" %}">Facebook Login</a>
                 <a href="{% url "social:begin" "instagram" %}">Instagram Login</a>

@@ -1,4 +1,9 @@
 {% extends 'base_template.html' %}
 {% block content %}
-<h1>Feedr!</h1>
+<h1>Welcome to Feedr!</h1>
+    {% if user.is_authenticated %}
+        <a href='{% url 'profile' %}'>Profile Page</a>
+        <br>
+        <a href='{% url 'map' %}'>Map Page</a>
+    {% endif %}
 {% endblock content %}

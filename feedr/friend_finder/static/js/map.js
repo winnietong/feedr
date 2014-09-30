@@ -1,15 +1,15 @@
 /**
  * Created by winnie on 8/7/14.
  */
-//<script type="text/javascript">
-//        var photoData = {{ photo_json|safe }};
-//    </script>
+
 
 $(document).ready(function(){
-    function initialize() {
+
+
+    function initialize(photoData) {
         var map_canvas = $('#map_canvas')[0];
         var map_options = {
-            center: new google.maps.LatLng(39.50, -98.35),
+            center: new google.maps.LatLng(37.786, -122.401),
             zoom: 5,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -23,7 +23,6 @@ $(document).ready(function(){
     }
 
     function addMarker(photo, map) {
-
         var infowindow = new google.maps.InfoWindow({
             content: "<img src='"+photo.images[2].source+"'>"
         });
@@ -41,9 +40,30 @@ $(document).ready(function(){
             // Log photo so users can see image object information
             console.log(photo)
         });
-
     }
 
-    initialize();
+    initialize(photoData);
+
+    $(document).on('click', '#getData', function(){
+        var month = $('#month').val();
+        var year = $('#year').val();
+        dateInfo = {
+            'month': month,
+            'year': year
+        };
+        $.ajax({
+            url: "/return_json/",
+            type: "POST",
+            dataType: 'json',
+            data: dateInfo,
+            success: function(response) {
+                initialize(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
 
 });
+
