@@ -1,0 +1,20 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+    <h1>Feedr profile page!</h1>
+    <div>
+        <br><br>
+        <img src = "{{ picture_data.url }}">
+        <div>Hometown: {{ profile_data.hometown.name }}</div>
+        <div>Full Name: {{ profile_data.name }}</div>
+        <div>Favorite Teams: {% for team in profile_data.favorite_teams %}{{ team.name }} {% endfor %}</div>
+        <div>Quotes: {{ profile_data.quotes }}</div>
+    </div>
+
+    <div>
+    {% for interest in interests.data %}
+        {{ interest.name }}
+    {% endfor %}
+    </div>
+
+{% endblock content %}

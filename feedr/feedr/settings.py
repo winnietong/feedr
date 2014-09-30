@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
+    'social.apps.django_app.default',
+    'debug_toolbar'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -47,7 +49,30 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware'
 )
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.instagram.InstagramOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1446227048991397'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'c1f10f74e8a5e48782a9d8eefd7bb30a'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_photos', 'user_likes', 'user_hometown', 'user_interests']
+
+SOCIAL_AUTH_INSTAGRAM_KEY = '53318a05d08c4d21a880597d23f164b9'
+SOCIAL_AUTH_INSTAGRAM_SECRET = 'bc6862307ba74627a1fc32fa58f98f19'
+
+LOGIN_REDIRECT_URL = 'home'
 
 ROOT_URLCONF = 'feedr.urls'
 

@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static "css/custom.css" %}">
+
+
+{% block extra_head %}{% endblock extra_head %}
+
+<html>
+    <body>
+        <nav>
+                Welcome {{ user.username }}!
+            {% if not user.is_authenticated %}
+                <a href="{% url "social:begin" "facebook" %}">Facebook Login</a>
+                <a href="{% url "social:begin" "instagram" %}">Instagram Login</a>
+            {% else %}
+                <a href="{% url 'logout' %}">Logout All</a>
+            {% endif %}
+        </nav>
+        {% block content %}{% endblock content %}
+    </body>
+</html>

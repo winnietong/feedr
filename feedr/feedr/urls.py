@@ -9,4 +9,11 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'friend_finder.views.home', name='home'),
+    url(r'^profile/$', 'friend_finder.views.profile', name='profile'),
+    url(r'^map/$', 'friend_finder.views.map', name='map'),
+    url(r'^ajaxmap/$', 'friend_finder.views.ajaxmap', name='ajaxmap'),
+    url(r'^instagram/$', 'friend_finder.views.instagram', name='instagram'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
+    url('', include('social.apps.django_app.urls', namespace='social'))
 )
