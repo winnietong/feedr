@@ -2,15 +2,10 @@
  * Created by winnietong on 9/30/14.
  */
 
-/**
- * Created by winnie on 8/7/14.
- */
-
 
 $(document).ready(function(){
 
     var access_token = document.URL.split('=')[1];
-    var photoData = '';
     var mapInfo = [];
 
     function initialize(photoData) {
@@ -21,34 +16,41 @@ $(document).ready(function(){
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(map_canvas, map_options);
-        for (var i = 0; i < photoData.length; i++) {
-            var photo = photoData[i];
-            console.log(photo);
-            if (photo.location != undefined) {
-                addMarker(photo, map);
-                imageInfo = {};
-                imageInfo.link = photo.link;
-                imageInfo.thumbnail = photo.images.thumbnail.url;
-                imageInfo.low_resolution = photo.images.low_resolution.url;
-                imageInfo.latitude = photo.location.latitude;
-                imageInfo.longitude = photo.location.longitude;
+        if (source=='instagram') {
+            for (var i = 0; i < photoData.length; i++) {
+                var photo = photoData[i];
+                if (photo.location != undefined) {
+                    imageInfo = {};
+                    imageInfo.link = photo.link;
+                    imageInfo.thumbnail = photo.images.thumbnail.url;
+                    imageInfo.low_resolution = photo.images.low_resolution.url;
+                    imageInfo.latitude = photo.location.latitude;
+                    imageInfo.longitude = photo.location.longitude;
+                }
+                addMarker(imageInfo, map);
+                mapInfo.push(imageInfo);
             }
-            mapInfo.push(imageInfo);
+        }
+        else {
+            for (var i = 0; i < photoData.length; i++) {
+            var photo = photoData[i].fields;
+            addMarker(photo, map);
+            }
         }
     }
 
     function addMarker(photo, map) {
         var infowindow = new google.maps.InfoWindow({
-            content: "<a href='"+photo.link+"'><img src='"+photo.images.low_resolution.url+"'></a>"+
+            content: "<a href='"+photo.link+"'><img src='"+photo.low_resolution+"'></a>"+
                 "<button id='share'>Share Photo</button>"
         });
 
-        var myLatLng = new google.maps.LatLng(photo.location.latitude,
-                                              photo.location.longitude);
+        var myLatLng = new google.maps.LatLng(photo.latitude,
+                                              photo.longitude);
         var marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
-            icon: photo.images.thumbnail.url
+            icon: photo.thumbnail
         });
 
         google.maps.event.addListener(marker, 'click', function() {

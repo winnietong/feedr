@@ -4,9 +4,10 @@
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/map.css" %}">
     <script src="https://maps.googleapis.com/maps/api/js"></script>
-    <script type="text/javascript" src="{% static "js/instagram_map.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/instagram.js" %}"></script>
     <script type="text/javascript">
         var photoData = {{ data|safe }};
+        var source = 'usermap';
     </script>
 {% endblock extra_head %}
 

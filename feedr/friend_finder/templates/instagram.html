@@ -5,14 +5,15 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/map.css" %}">
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script type="text/javascript" src="{% static "js/instagram.js" %}"></script>
+    <script type="text/javascript">
+        var photoData = '';
+        var source = 'instagram'
+    </script>
 {% endblock extra_head %}
 
 {% block content %}
     <button id="shareMap" type="button">Share My Map!</button>
     <button id="getData" type="button">Get Photos</button>
-    {% if map_id %}
-        {{ map_id }}
-    {% endif %}
     <hr>
     <div id="map-container">
         <div id="map_canvas"></div>
