@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -9,6 +10,7 @@ import time
 # from instagram.client import InstagramAPI
 
 # Create your views here.
+from friend_finder.models import Image, Map
 
 
 def home(request):
@@ -29,6 +31,33 @@ def map(request):
     graph = facebook.GraphAPI(user_social_auth.extra_data['access_token'])
     photos = graph.get_object("me/photos", limit=50)
     return render(request, 'map.html', {'photo_json': json.dumps(photos['data'])})
+
+
+@login_required
+@csrf_exempt
+def my_instagram(request, map_id):
+    map = Map.objects.get(id=map_id)
+    data = serializers.serialize("json", map.image.all())
+    return render(request, 'instagram_map.html', {'data': data})
+
+
+@csrf_exempt
+def save_map(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        map = Map.objects.create()
+        for image in data:
+            created_image, created = Image.objects.get_or_create(
+                link = image['link'],
+                thumbnail = image['thumbnail'],
+                low_resolution = image['low_resolution'],
+                latitude = image['latitude'],
+                longitude = image['longitude']
+            )
+            map.image.add(created_image)
+        return HttpResponse({map.pk}, content_type='application/json')
+
+    return render(request, 'instagram.html')
 
 
 @csrf_exempt

@@ -1,3 +1,5 @@
 from django.contrib import admin
+from friend_finder.models import Image, Map
 
-# Register your models here.
+admin.site.register(Image)
+admin.site.register(Map)
